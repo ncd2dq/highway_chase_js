@@ -7,6 +7,8 @@ let blackBackground;
 let industrialBackground;
 let punkBackground;
 
+let hero;
+
 function preload(){
     
     
@@ -18,11 +20,13 @@ function setup(){
     blackBackground = color(0, 0, 0);
     industrialBackground = new IndustrialBackground();
     punkBackground = new PunkBackground();
+    hero = new Hero();
 }
 
 function draw(){
     background(blackBackground);
     //industrialBackground.run();
     punkBackground.run();
+    hero.run(frameCount);
     
 }
