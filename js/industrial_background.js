@@ -26,9 +26,10 @@ class IndustrialBackground{
         this.b3x3 = this.b0x3;
         this.image_resizing = 1.98;
         
-        this.speed = 2;
+        this.speed = 2 * 1.2 * 1.2;
         
         this.floor_y = 360;
+        this.hero_floor = 295;
     }
     
     update(){
@@ -92,7 +93,6 @@ class IndustrialBackground{
     }
     
     run(){
-        this.update();
         this.infinite_loop();
         this.display();
     }

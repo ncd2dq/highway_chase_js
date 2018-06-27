@@ -18,11 +18,12 @@ class PunkBackground{
         
         this.image_resizing = 2 * 0.95;
         
-        this.speed = 2;
-        this.speed1 = this.speed * 1.2;
-        this.speed2 = this.speed1 * 1.2;
+        this.speed = 0.5;
+        this.speed1 = 1 * 1.2;
+        this.speed2 = 2 * 1.2 * 1.2;
         
         this.floor_y = 419;
+        this.hero_floor = 353;
         
     }
     
@@ -65,13 +66,13 @@ class PunkBackground{
         
         //loop foreground
         if(this.b2x <= - 668){
-            this.b2x = 668 * 2 -1;
+            this.b2x = 668 * 2 - 1;
         }
         if(this.b2x2 <= - 668){
-            this.b2x2 = 668 * 2 -1;
+            this.b2x2 = 668 * 2 - 1;
         }
         if(this.b2x3 <= - 668){
-            this.b2x3 = 668 * 2 -1;
+            this.b2x3 = 668 * 2 - 1;
         }
         
         
@@ -97,7 +98,6 @@ class PunkBackground{
     }
     
     run(){
-        this.update();
         this.infinite_loop();
         this.display();
     }
