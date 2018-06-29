@@ -10,6 +10,12 @@ let BackGround;
 
 let hero;
 
+let all_vehicles = [];
+let occupied_vehicle = false;
+
+//TESTING--------------
+let humvee_object;
+
 function preload(){
     
     
@@ -23,13 +29,24 @@ function setup(){
     punkBackground = new PunkBackground();
     BackGround = punkBackground;
     hero = new Hero();
+    
+    //TESTING--------------
+    humvee_object = new Humvee();
+    all_vehicles.push(humvee_object);
 }
 
 function draw(){
     background(blackBackground);
     BackGround.run();
-    hero.run(frameCount);
     
+    //TESTING--------------
+    if(hero.occupied_vehicle){
+        occupied_vehicle.run_occupied(frameCount);
+    } else {
+        humvee_object.display();
+    }
+    hero.run(frameCount);
+
 }
 
 //aim 7 (first time you press space or click)
@@ -41,10 +58,22 @@ function draw(){
 
 function keyPressed(){
     if (keyCode === LEFT_ARROW){
-        hero.action('run_left');
+        if(!hero.occupied_vehicle){
+            hero.action('run_left');
+        } else {
+            occupied_vehicle.template.x_vel = -occupied_vehicle.template.x_speed;
+            occupied_vehicle.template.direction = 'left';
+            occupied_vehicle.template.moving = true;
+        }
         
     } else if (keyCode === RIGHT_ARROW){
-        hero.action('run_right');
+        if(!hero.occupied_vehicle){
+            hero.action('run_right');
+        } else {
+            occupied_vehicle.template.x_vel = occupied_vehicle.template.x_speed;
+            occupied_vehicle.template.direction= 'right';
+            occupied_vehicle.template.moving = true;
+        }
         
     } else if (keyCode === UP_ARROW){
         hero.action('jump');
@@ -54,15 +83,27 @@ function keyPressed(){
 
     } else if (keyCode == 80){ //the 'p' key
 
+    } else if (keyCode == 66){
+        hero.action('board');
     }
 }
 
 function keyReleased(){
     if (keyCode === LEFT_ARROW){
-        hero.action('idle');
+        if(!hero.occupied_vehicle){
+            hero.action('idle');
+        } else {
+            occupied_vehicle.template.x_vel = 0;
+            occupied_vehicle.template.moving = false;
+        }
         
     } else if (keyCode === RIGHT_ARROW){
-        hero.action('idle');
+        if(!hero.occupied_vehicle){
+            hero.action('idle');
+        } else {
+            occupied_vehicle.template.x_vel = 0;
+            occupied_vehicle.template.moving = false;
+        }
         
     } else if (keyCode === UP_ARROW){
 
@@ -70,6 +111,8 @@ function keyReleased(){
         hero.action('aim');
 
     } else if (keyCode == 80){ //the 'p' key
+
+    } else if (keyCode == 66){ //the 'b' key
 
     }
     

@@ -86,10 +86,10 @@ class IndustrialBackground{
         image(this.b2, this.b2x3, 0, this.b2.width * this.image_resizing, this.b2.height * this.image_resizing);
         image(this.b3, this.b3x3, 0, this.b3.width * this.image_resizing, this.b3.height * this.image_resizing);
         
-/*        //finding the ground level
+        //finding the ground level
         stroke(255, 0, 0);
         strokeWeight(1);
-        line(0, 360, 400, 360);*/
+        line(0, 360, 400, 360);
     }
     
     run(){

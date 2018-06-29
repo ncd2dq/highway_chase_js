@@ -5,7 +5,7 @@ class Hero{
         this.animation_dict = this.create_animation_dictionary();
         this.animation_index = 0;
         this.animation_speed = 6;
-        
+        this.occupied_vehicle = false;
         this.jump2 = false;
         this.x = 20;
         this.y = BackGround.hero_floor;
@@ -88,6 +88,11 @@ class Hero{
     
     //Increment the animation index
     loop_current_animation(frame){
+        if(this.state == 'idle_left' || this.state == 'idle_right'){
+            this.animation_speed = 8;
+        } else {
+            this.ainmation_speed = 6;
+        }
         let max_animation = this.animation_dict[this.state].length;
         
         if(this.state == 'aim_left' || this.state == 'aim_right'){
@@ -141,14 +146,16 @@ class Hero{
             this.animation_index = 0;
 
         } else if(behavior == 'jump'){
-            if(this.y_vel != 0 && !this.jump2){ //allows the double jump
-                this.y -= 10;
-                this.y_vel = -9;
-                this.jump2 = true;
-            }
-            if(!this.jump2){
-                this.y -= 10;
-                this.y_vel = -9;
+            if(!this.occupied_vehicle){
+                if(this.y_vel != 0 && !this.jump2){ //allows the double jump
+                    this.y -= 10;
+                    this.y_vel = -9;
+                    this.jump2 = true;
+                }
+                if(!this.jump2){
+                    this.y -= 10;
+                    this.y_vel = -9;
+                }
             }
             
         } else if(behavior == 'attack'){
@@ -168,7 +175,20 @@ class Hero{
                 this.animation_index = 0;
             }
             
-        } else if(behavior == 'vehicle'){
+        } else if(behavior == 'board'){
+            if(!this.occupied_vehicle){
+                let hero_center = this.find_center();
+                for(let i = 0; i < all_vehicles.length; i++){
+                    if(all_vehicles[i].template.be_boarded(hero_center)){
+                        occupied_vehicle = all_vehicles[i];
+                        this.occupied_vehicle = true;
+                    }
+                }
+            } else {
+                occupied_vehicle.template.exit();
+                occupied_vehicle = false;
+                this.occupied_vehicle = false;
+            }
             
         } else if(behavior == 'idle'){
             if(this.facing == 'right'){
@@ -192,15 +212,26 @@ class Hero{
         }
     }
     
+    find_center(){
+        return [this.x + 35, this.y + 30, 35, 30];
+    }
+    
     //Display the current image
     display(){
         image(this.animation_dict[this.state][this.animation_index], this.x, this.y, 75, 75);
+
+        
+/*        //Find hero center
+        fill(255,255,255);
+        ellipse(this.x + 35, this.y + 30, 5, 5);*/
     }
     
     run(frame){
         this.loop_current_animation(frame);
-        this.display();
-        this.update();
+        if(!this.occupied_vehicle){
+            this.display();
+            this.update();
+        }
     }
     
     
