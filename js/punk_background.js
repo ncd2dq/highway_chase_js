@@ -1,5 +1,6 @@
 class PunkBackground{
     constructor(){
+        this.name = 'Punk';
         this.b0 = loadImage('assets/environments/cyberpunk/layer0.png');
         this.b1 = loadImage('assets/environments/cyberpunk/layer1.png');
         this.b2 = loadImage('assets/environments/cyberpunk/layer2.png');
@@ -90,8 +91,8 @@ class PunkBackground{
         image(this.b2, this.b2x, 75, this.b2.width * this.image_resizing, this.b2.height * this.image_resizing);
         image(this.b2, this.b2x2, 75, this.b2.width * this.image_resizing, this.b2.height * this.image_resizing);
         image(this.b2, this.b2x3, 75, this.b2.width * this.image_resizing, this.b2.height * this.image_resizing);
-        
-/*        //finding the ground level
+/*        
+        //finding the ground level
         stroke(255, 0, 0);
         strokeWeight(1);
         line(0, 419, 400, 419);*/

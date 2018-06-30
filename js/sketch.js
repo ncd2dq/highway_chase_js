@@ -15,9 +15,10 @@ let occupied_vehicle = false;
 
 //TESTING--------------
 let humvee_object;
+let bike1;
+let bike2;
 
 function preload(){
-    
     
 }
 
@@ -32,19 +33,31 @@ function setup(){
     
     //TESTING--------------
     humvee_object = new Humvee();
-    all_vehicles.push(humvee_object);
+    bike1 = new MotoCommuter();
+    bike2 = new MotoNaked();
+    all_vehicles.push(humvee_object, bike1, bike2);
 }
 
 function draw(){
     background(blackBackground);
     BackGround.run();
     
-    //TESTING--------------
+    //Vehicle TESTING--------------
     if(hero.occupied_vehicle){
         occupied_vehicle.run_occupied(frameCount);
+        for(let i = 0; i < all_vehicles.length; i++){
+            if(all_vehicles[i] != occupied_vehicle){
+                all_vehicles[i].display();
+            }
+        }
     } else {
-        humvee_object.display();
+        for(let i = 0; i < all_vehicles.length; i++){
+            all_vehicles[i].display();
+        }
     }
+    
+    
+    //Hero Testing
     hero.run(frameCount);
 
 }
@@ -135,6 +148,30 @@ function mousePressed(){
     hero.action('attack');
 }
 
+
+/*
+
+
+gif = loadGif(image) loads up a gif and returns a p5Image object with some extra functionality. Warning: loadGif only works with locally hosted gifs.
+
+gif.play() plays the gif (it will start playing by default)
+
+gif.pause() pauses the gif
+
+gif.playing() returns true or false depending on if the gif is currently playing
+
+gif.loaded() returns true or false depending on if the gif has loaded
+
+gif.frames() returns the frames as an array of image data
+
+gif.frame([n]) with no argument, returns the current frame. With an integer as an argument, skips to that frame.
+
+totalFrames() returns the total number of frames in the gif
+
+loadGif() will return a modified p5Image object, so you can also use any of the p5Image functions like loadPixels(), filter() or blend().
+
+
+*/
 function mouseReleased(){
     hero.action('aim');
 }

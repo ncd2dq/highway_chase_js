@@ -1,26 +1,24 @@
 class Vehicle{
-    constructor(land_vehicle, file_path){
+    constructor(land_vehicle, moto, file_path){
         //True or False
         this.land_vehicle = land_vehicle;
+        this.moto = moto;
         this.occupied = false;
         this.direction = 'right';
         this.moving = false;
         
-        //Offset positions
-        this.tire_left_x_offset = 0;
+        //Offset positions (compared to the central point) so that you only need to update the central point location
+        this.tire_left_x_offset = 0;  
         this.tire_left_y_offset = 0;
         this.tire_right_x_offset = 0;
         this.tire_right_y_offset = 0;
-        this.tire_left_center_x_offset = 0;
-        this.tire_left_center_y_offset = 0;
-        this.tire_right_center_x_offset = 0;
-        this.tire_right_center_y_offset = 0;
         this.body_x_offset = 0;
         this.body_y_offset = 0;
         this.body_x_offset_s = 0;
         this.body_y_offset_s = 0;
         this.hero_x_offset = 0;
         this.hero_y_offset = 0;
+        this.wheel_rotation_offset = 0; //Translate the center coordinate point to the middle of the tire (compared to the top left point)
         
         //Central Point
         this.x = 0;
@@ -133,27 +131,27 @@ class Vehicle{
     wheel_rotation(){
         if(this.direction == 'right'){
             push();
-            translate(this.x + this.tire_left_x_offset + 23, this.y + this.tire_left_y_offset + 23);
+            translate(this.x + this.tire_left_x_offset + this.wheel_rotation_offset, this.y + this.tire_left_y_offset + this.wheel_rotation_offset);
             rotate(degrees(frameCount * this.wheel_rotation_speed));
-            image(this.animation_dict['tire'][0], -23, -23, this.tire_left_x_size, this.tire_left_y_size);
+            image(this.animation_dict['tire'][0], -this.wheel_rotation_offset, -this.wheel_rotation_offset, this.tire_left_x_size, this.tire_left_y_size);
             pop();
         
             push();
-            translate(this.x + this.tire_right_x_offset + 23, this.y + this.tire_right_y_offset + 23);
+            translate(this.x + this.tire_right_x_offset + this.wheel_rotation_offset, this.y + this.tire_right_y_offset + this.wheel_rotation_offset);
             rotate(degrees(frameCount * this.wheel_rotation_speed));
-            image(this.animation_dict['tire'][0], -23, -23, this.tire_right_x_size, this.tire_right_y_size);
+            image(this.animation_dict['tire'][0], -this.wheel_rotation_offset, -this.wheel_rotation_offset, this.tire_right_x_size, this.tire_right_y_size);
             pop();
         } else {
             push();
-            translate(this.x + this.tire_left_x_offset + 23, this.y + this.tire_left_y_offset + 23);
+            translate(this.x + this.tire_left_x_offset + this.wheel_rotation_offset, this.y + this.tire_left_y_offset + this.wheel_rotation_offset);
             rotate(degrees(-frameCount * this.wheel_rotation_speed));
-            image(this.animation_dict['tire'][0], -23, -23, this.tire_left_x_size, this.tire_left_y_size);
+            image(this.animation_dict['tire'][0], -this.wheel_rotation_offset, -this.wheel_rotation_offset, this.tire_left_x_size, this.tire_left_y_size);
             pop();
         
             push();
-            translate(this.x + this.tire_right_x_offset + 23, this.y + this.tire_right_y_offset + 23);
+            translate(this.x + this.tire_right_x_offset + this.wheel_rotation_offset, this.y + this.tire_right_y_offset + this.wheel_rotation_offset);
             rotate(degrees(-frameCount * this.wheel_rotation_speed));
-            image(this.animation_dict['tire'][0], -23, -23, this.tire_right_x_size, this.tire_right_y_size);
+            image(this.animation_dict['tire'][0], -this.wheel_rotation_offset, -this.wheel_rotation_offset, this.tire_right_x_size, this.tire_right_y_size);
             pop();
         }
     }
@@ -162,14 +160,26 @@ class Vehicle{
         if(occupied){
             hero.display();
         }
+        
         if(this.land_vehicle == true){
-            image(this.animation_dict['body'][0], this.x + this.body_x_offset, this.y + this.body_y_offset, this.body_x_size, this.body_y_size);
-            
-            if(this.moving){
-                this.wheel_rotation();
-            } else { 
-                image(this.animation_dict['tire'][0], this.x + this.tire_left_x_offset, this.y + this.tire_left_y_offset, this.tire_left_x_size, this.tire_left_y_size);
-                image(this.animation_dict['tire'][0], this.x + this.tire_right_x_offset, this.y + this.tire_right_y_offset, this.tire_right_x_size, this.tire_right_y_size);
+            if(this.moto == true){
+
+                if(this.moving){
+                    this.wheel_rotation();
+                } else { 
+                    image(this.animation_dict['tire'][0], this.x + this.tire_left_x_offset, this.y + this.tire_left_y_offset, this.tire_left_x_size, this.tire_left_y_size);
+                    image(this.animation_dict['tire'][0], this.x + this.tire_right_x_offset, this.y + this.tire_right_y_offset, this.tire_right_x_size, this.tire_right_y_size);
+                }
+                image(this.animation_dict['body'][0], this.x + this.body_x_offset, this.y + this.body_y_offset, this.body_x_size, this.body_y_size);
+            } else {
+                image(this.animation_dict['body'][0], this.x + this.body_x_offset, this.y + this.body_y_offset, this.body_x_size, this.body_y_size);
+
+                if(this.moving){
+                    this.wheel_rotation();
+                } else { 
+                    image(this.animation_dict['tire'][0], this.x + this.tire_left_x_offset, this.y + this.tire_left_y_offset, this.tire_left_x_size, this.tire_left_y_size);
+                    image(this.animation_dict['tire'][0], this.x + this.tire_right_x_offset, this.y + this.tire_right_y_offset, this.tire_right_x_size, this.tire_right_y_size);
+                }
             }
             
         } else {
