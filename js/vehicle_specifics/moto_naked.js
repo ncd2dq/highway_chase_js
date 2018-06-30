@@ -34,7 +34,7 @@ class MotoNaked{
         this.template.body_x_offset = -70;
         this.template.body_y_offset = -22; //changing this
         this.template.body_x_offset_s = -70;
-        this.template.body_y_offset_s = -18;
+        this.template.body_y_offset_s = -22;
         this.template.hero_x_offset = 0;
         this.template.hero_y_offset = -20;
         this.template.wheel_rotation_offset = 15;
