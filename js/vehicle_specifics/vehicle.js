@@ -70,20 +70,24 @@ class Vehicle{
         if(this.x + this.x_vel >= Canvas_Width * 3 / 4){
             BackGround.update();
             BackGround.move_objects();
-            if(this.y_vel > 0 && this.y + this.y_vel < this.ground_y_punk || (this.y_vel < 0 && this.y - this.y_vel > 0)){
+            if(this.y_vel > 0 && this.y + this.y_vel < this.ground_y_punk || (this.y_vel < 0 && this.y - this.y_vel > 15)){
                 let hero_center = hero.find_center();
                 this.y += this.y_vel;
                 hero.y = this.y - hero_center[3] + this.hero_y_offset;
-            } 
+            } else if (this.y_vel > 0 && this.y + this.y_vel >= this.ground_y_punk){
+                this.y = this.ground_y_punk;
+            }
         } else {
             let hero_center = hero.find_center();
             this.x += this.x_vel;
             hero.x = this.x - hero_center[2] + this.hero_x_offset;
             
-            if(this.y_vel > 0 && this.y + this.y_vel < this.ground_y_punk || (this.y_vel < 0 && this.y - this.y_vel > 0)){
+            if(this.y_vel > 0 && this.y + this.y_vel < this.ground_y_punk || (this.y_vel < 0 && this.y - this.y_vel > 15)){
                 this.y += this.y_vel;
                 hero.y = this.y - hero_center[3] + this.hero_y_offset;
-            } 
+            }  else if (this.y_vel > 0 && this.y + this.y_vel >= this.ground_y_punk){
+                this.y = this.ground_y_punk;
+            }
         }
     }
     

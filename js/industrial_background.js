@@ -32,14 +32,15 @@ class IndustrialBackground{
         this.floor_y = 360;
         this.hero_floor = 295;
     }
-    
-    
+
     reset_speed(){
+        //Used when hero exits a vehicle to return background to neutral walking speed
         this.speed = this.speed_s;
     }
     
     
     move_objects(){
+        //When side scrolling, all units aside from the hero and their occupied vehicle should be pushed to the left
         for(let i = 0; i < all_units.length; i++){
             all_units[i].template.x -= this.speed;
         }
@@ -110,6 +111,7 @@ class IndustrialBackground{
     }
     
     infinite_loop(){
+        //When any of the images reaches fully off the left side of screen, reset it by sending it to the far right off screen
         if (this.position1 <= -697.5){
             this.position1 = 697.5 * 2;
             this.realign();
@@ -125,6 +127,9 @@ class IndustrialBackground{
     }
     
     display(){
+        //Display images: For the industrial level, there is no parallax.
+        //Syntax image(image, x_pos, y_pos, x_resize, y_resize)
+        
         //Background iteration 1
         image(this.b0, this.b0x, 0, this.b0.width * this.image_resizing, this.b0.height * this.image_resizing);
         image(this.b1, this.b1x, 0, this.b1.width * this.image_resizing, this.b1.height * this.image_resizing);
@@ -143,7 +148,7 @@ class IndustrialBackground{
         image(this.b2, this.b2x3, 0, this.b2.width * this.image_resizing, this.b2.height * this.image_resizing);
         image(this.b3, this.b3x3, 0, this.b3.width * this.image_resizing, this.b3.height * this.image_resizing);
         
-/*        //finding the ground level
+/*        //Use this to see the proper "ground level" drawn with a red line"
         stroke(255, 0, 0);
         strokeWeight(1);
         line(0, 360, 400, 360);*/

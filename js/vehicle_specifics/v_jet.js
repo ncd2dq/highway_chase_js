@@ -54,6 +54,16 @@ class Jet{
     
     run(){
         this.display(false);
+        
+        if(BackGround.name == 'Punk'){
+            if(this.template.y < this.template.ground_y_punk){
+                this.animation(frameCount);
+            }
+        } else if (BackGround.name == 'Industrial'){
+            if(this.template.y < this.template.ground_y_industrial){
+                this.animation(frameCount);
+            }
+        }
     }
     
     run_occupied(frame){
