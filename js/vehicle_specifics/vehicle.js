@@ -70,7 +70,11 @@ class Vehicle{
         if(this.x + this.x_vel >= Canvas_Width * 3 / 4){
             BackGround.update();
             BackGround.move_objects();
-            this.y += this.y_vel;
+            if(this.y_vel > 0 && this.y + this.y_vel < this.ground_y_punk || (this.y_vel < 0 && this.y - this.y_vel > 0)){
+                let hero_center = hero.find_center();
+                this.y += this.y_vel;
+                hero.y = this.y - hero_center[3] + this.hero_y_offset;
+            } 
         } else {
             let hero_center = hero.find_center();
             this.x += this.x_vel;
