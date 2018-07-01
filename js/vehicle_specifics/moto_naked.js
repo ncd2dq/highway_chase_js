@@ -32,7 +32,7 @@ class MotoNaked{
         this.template.tire_right_x_offset = 30;
         this.template.tire_right_y_offset = 7;
         this.template.body_x_offset = -70;
-        this.template.body_y_offset = -22; //changing this
+        this.template.body_y_offset = -22; 
         this.template.body_x_offset_s = -70;
         this.template.body_y_offset_s = -22;
         this.template.hero_x_offset = 0;
@@ -44,6 +44,8 @@ class MotoNaked{
         this.template.idle_animation_speed = 5;
         this.template.idle_movement = 1;
         this.template.idle_jerk = 1.1;
+        
+        this.template.x_speed = 10;
         
     }
     

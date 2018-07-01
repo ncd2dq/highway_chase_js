@@ -25,8 +25,8 @@ class Vehicle{
         this.y = 0;
         this.x_vel = 0;
         this.y_vel = 0;
-        this.x_speed = 5;
-        this.y_speed = 5;
+        this.x_speed = 0;
+        this.y_speed = 0;
         this.ground_y_punk = 0;
         this.ground_y_industrial = 0;
         
@@ -58,8 +58,8 @@ class Vehicle{
             animation_dict['body'].push(loadImage(prefix + file_path + '/body.png'));
             animation_dict['tire'].push(loadImage(prefix + file_path + '/tire.png'));
         } else {
-            for(let i = 0; i < file_path.length; i++){
-                animation_dict['body'].push(loadImage(prefix + file_path + '/body' + i + '.png'));
+            for(let i = 0; i < file_path[1]; i++){
+                animation_dict['body'].push(loadImage(prefix + file_path[0] + '/body' + i + '.png'));
             }
         }
         
@@ -69,15 +69,18 @@ class Vehicle{
     update(){
         if(this.x + this.x_vel >= Canvas_Width * 3 / 4){
             BackGround.update();
+            BackGround.move_objects();
             this.y += this.y_vel;
         } else {
             let hero_center = hero.find_center();
             this.x += this.x_vel;
-            this.y += this.y_vel;
             hero.x = this.x - hero_center[2] + this.hero_x_offset;
-            hero.y = this.y - hero_center[3] + this.hero_y_offset;
+            
+            if(this.y_vel > 0 && this.y + this.y_vel < this.ground_y_punk || (this.y_vel < 0 && this.y - this.y_vel > 0)){
+                this.y += this.y_vel;
+                hero.y = this.y - hero_center[3] + this.hero_y_offset;
+            } 
         }
-        
     }
     
     be_boarded(hero_center){
@@ -86,10 +89,30 @@ class Vehicle{
                 hero.x = this.x - hero_center[2] + this.hero_x_offset;
                 hero.y = this.y - hero_center[3] + this.hero_y_offset;
                 this.occupied = true;
+                
+                if(BackGround.name == 'Punk'){
+                    BackGround.speed = this.x_speed * 2 / 3;
+                    BackGround.speed1 = this.x_speed * 2 / 3 * 1.2;
+                    BackGround.speed2 = this.x_speed * 2 / 3 * 1.2 * 1.2;
+                } else if(BackGround.name == 'Industrial'){
+                    BackGround.speed = this.x_speed * 2 / 3;
+                }
+                
                 return true;
             }
         }
         return false;
+    }
+    
+    fly(direction, speed){
+        
+        if(direction == 'up'){
+            this.y_vel = -speed;
+        } else if(direction == 'down') {
+            this.y_vel = speed;
+        }
+        
+        
     }
     
     exit(){
@@ -99,6 +122,7 @@ class Vehicle{
         this.moving = false;
         this.x_vel = 0;
         this.y_vel = 0;
+        BackGround.reset_speed();
     }
     
     animation(frame){
@@ -119,7 +143,7 @@ class Vehicle{
                 hero.y -= this.idle_movement * this.idle_jerk;
             }
         }
-        
+
         if(this.animation_index < this.animation_index_max - 1){
             this.animation_index++;
         } else {
@@ -158,7 +182,9 @@ class Vehicle{
     
     display(occupied){
         if(occupied){
-            hero.display();
+            if(this.land_vehicle){
+                hero.display();
+            }
         }
         
         if(this.land_vehicle == true){
@@ -183,7 +209,7 @@ class Vehicle{
             }
             
         } else {
-            image(this.animation_dict['body'][this.animation_index], this.x + this.body_x_offset, this.y + this.body_y_offset, this.body_x_size, this.body_y_size);
+            image(this.animation_dict['body'][0], this.x + this.body_x_offset, this.y + this.body_y_offset, this.body_x_size, this.body_y_size);
         }
         
     }

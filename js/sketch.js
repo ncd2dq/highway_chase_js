@@ -10,13 +10,14 @@ let BackGround;
 
 let hero;
 
-let all_vehicles = [];
+let all_units = [];
 let occupied_vehicle = false;
 
 //TESTING--------------
 let humvee_object;
 let bike1;
 let bike2;
+let j;
 
 function preload(){
     
@@ -35,7 +36,8 @@ function setup(){
     humvee_object = new Humvee();
     bike1 = new MotoCommuter();
     bike2 = new MotoNaked();
-    all_vehicles.push(humvee_object, bike1, bike2);
+    j = new Jet();
+    all_units.push(humvee_object, bike1, bike2, j);
 }
 
 function draw(){
@@ -45,14 +47,14 @@ function draw(){
     //Vehicle TESTING--------------
     if(hero.occupied_vehicle){
         occupied_vehicle.run_occupied(frameCount);
-        for(let i = 0; i < all_vehicles.length; i++){
-            if(all_vehicles[i] != occupied_vehicle){
-                all_vehicles[i].display();
+        for(let i = 0; i < all_units.length; i++){
+            if(all_units[i] != occupied_vehicle){
+                all_units[i].display();
             }
         }
     } else {
-        for(let i = 0; i < all_vehicles.length; i++){
-            all_vehicles[i].display();
+        for(let i = 0; i < all_units.length; i++){
+            all_units[i].display();
         }
     }
     
@@ -89,8 +91,20 @@ function keyPressed(){
         }
         
     } else if (keyCode === UP_ARROW){
-        hero.action('jump');
+        if(!hero.occupied_vehicle){
+            hero.action('jump');
+        } else {
+            if(!occupied_vehicle.template.land_vehicle){
+                occupied_vehicle.template.fly('up', occupied_vehicle.template.y_speed);
+            }
+        }
         
+    } else if (keyCode ==DOWN_ARROW){
+        if(hero.occupied_vehicle){
+            if(!occupied_vehicle.land_vehicle){
+                occupied_vehicle.template.fly('down', occupied_vehicle.template.y_speed);
+            }
+        }
     } else if (keyCode == 32){ //the spacebar
         hero.action('attack');
 
@@ -119,6 +133,18 @@ function keyReleased(){
         }
         
     } else if (keyCode === UP_ARROW){
+        if(hero.occupied_vehicle){
+            if(!occupied_vehicle.land_vehicle){
+                occupied_vehicle.template.y_vel = 0;
+            }
+        }
+        
+    } else if (keyCode == DOWN_ARROW){
+        if(hero.occupied_vehicle){
+            if(!occupied_vehicle.land_vehicle){
+                occupied_vehicle.template.y_vel = 0;
+            }
+        }
 
     } else if (keyCode == 32){ //the spacebar
         hero.action('aim');

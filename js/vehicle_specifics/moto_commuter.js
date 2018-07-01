@@ -45,6 +45,8 @@ class MotoCommuter{
         this.template.idle_movement = 1;
         this.template.idle_jerk = 1.1;
         
+        this.template.x_speed = 10;
+        
     }
     
     display(occupied){

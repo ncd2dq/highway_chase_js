@@ -3,7 +3,7 @@ class IndustrialBackground{
         this.name = 'Industrial';
         this.position1 = 0;
         this.position2 = 697.5 ;
-        this.position3 = 697.5 * 2;;
+        this.position3 = 697.5 * 2;
         
         this.b0 = loadImage('assets/environments/industrial/layer0.png');
         this.b0x = this.position1;
@@ -26,10 +26,64 @@ class IndustrialBackground{
         this.b3x3 = this.b0x3;
         this.image_resizing = 1.98;
         
+        this.speed_s = 2 * 1.2 * 1.2;
         this.speed = 2 * 1.2 * 1.2;
         
         this.floor_y = 360;
         this.hero_floor = 295;
+    }
+    
+    
+    reset_speed(){
+        this.speed = this.speed_s;
+    }
+    
+    
+    move_objects(){
+        for(let i = 0; i < all_units.length; i++){
+            all_units[i].template.x -= this.speed;
+        }
+    }
+    
+    realign(){
+        //stops the gap from occuring between parralax layers
+        //Stage 1 --> Find the farthest left most of each set
+/*        let left_most = [this.b0x, this.b0x2, this.b0x3];
+        
+        left_most.sort(function(a,b){return a-b});
+        
+        //Stage 2 --> Redraw all others based on farthest left
+        //Realign b_x
+        left_most[1] = left_most[0] + 697;
+        left_most[2] = left_most[0] + (697 * 2);
+        this.b0x = left_most[0];
+        this.b0x2 = left_most[1];
+        this.b0x3 = left_most[2];
+        
+        //Realign b1x
+        this.b1x = left_most[0];
+        this.b1x2 = left_most[1];
+        this.b1x3 = left_most[2];
+        
+        //Realign b2x
+        this.b2x = left_most[0];
+        this.b2x2 = left_most[1];
+        this.b2x3 = left_most[2];*/
+        
+        this.b0x = 0;
+        this.b0x2 = 695;
+        this.b0x3 = 695 * 2;
+        
+        //Realign b1x
+        this.b1x = 0;
+        this.b1x2 = 695;
+        this.b1x3 = 695 * 2;
+        
+        //Realign b2x
+        this.b2x = 0;
+        this.b2x2 = 695;
+        this.b2x3 = 695 * 2;
+        
     }
     
     update(){
@@ -58,12 +112,15 @@ class IndustrialBackground{
     infinite_loop(){
         if (this.position1 <= -697.5){
             this.position1 = 697.5 * 2;
+            this.realign();
         }
         if (this.position2 <= -697.5){
             this.position2 = 697.5 * 2;
+            this.realign();
         }
         if (this.position3 <= -697.5){
             this.position3 = 697.5 * 2;
+            this.realign();
         }
     }
     

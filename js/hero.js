@@ -116,6 +116,7 @@ class Hero{
         if(this.state == 'run_right'){
             if(this.x >= Canvas_Width * 3 / 4){
                 BackGround.update();
+                BackGround.move_objects();
             } else {
                 this.x += this.run_speed;
             }
@@ -178,14 +179,17 @@ class Hero{
         } else if(behavior == 'board'){
             if(!this.occupied_vehicle){
                 let hero_center = this.find_center();
-                for(let i = 0; i < all_vehicles.length; i++){
-                    if(all_vehicles[i].template.be_boarded(hero_center)){
-                        occupied_vehicle = all_vehicles[i];
+                for(let i = 0; i < all_units.length; i++){
+                    if(all_units[i].template.be_boarded(hero_center)){
+                        occupied_vehicle = all_units[i];
+                        all_units.splice(i, 1);
                         this.occupied_vehicle = true;
+                        break;
                     }
                 }
             } else {
                 occupied_vehicle.template.exit();
+                all_units.push(occupied_vehicle);
                 occupied_vehicle = false;
                 this.occupied_vehicle = false;
             }

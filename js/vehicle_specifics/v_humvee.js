@@ -43,6 +43,8 @@ class Humvee{
         this.template.idle_movement = 2;
         this.template.idle_jerk = 1.2;
         
+        this.template.x_speed = 5;
+        
     }
     
     display(occupied){
@@ -70,29 +72,3 @@ class Humvee{
         this.update();
     }
 }
-
-
-/*
-
-//Offset positions
-this.tire_left_x_offset = 0;
-this.tire_left_y_offset = 0;
-this.tire_right_x_offset = 0;
-this.tire_right_y_offset = 0;
-this.body_x_offset = 0;
-this.body_y_offset = 0;
-
-//Central Point
-this.x = 0;
-this.y = 0;
-this.x_vel = 0;
-this.y_vel = 0;
-
-//Image Sizes
-this.tire_left_x_size = 0;
-this.tire_left_y_size = 0;
-this.tire_right_x_size = 0;
-this.tire_right_y_size = 0;
-this.body_x_size = 0;
-this.body_y_size = 0;
-*/
