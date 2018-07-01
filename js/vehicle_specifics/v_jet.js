@@ -39,9 +39,9 @@ class Jet{
     display(occupied){
         this.template.display(occupied);
         
-        //See central point
+/*        //See central point
         fill(255,255,255);
-        ellipse(this.template.x, this.template.y, 10, 10);
+        ellipse(this.template.x, this.template.y, 10, 10);*/
     }
     
     animation(frame){
