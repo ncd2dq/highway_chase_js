@@ -1,11 +1,12 @@
 class Hero{
     constructor(){
-        this.state = 'idle_right';
-        this.facing = 'right';
-        this.animation_dict = this.create_animation_dictionary();
-        this.animation_index = 0;
-        this.animation_speed = 6;
-        this.occupied_vehicle = false;
+        this.state = 'idle_right'; //Used to determine what sprite images to display
+        this.facing = 'right'; //Used to determine what orientation of sprite images to display
+        this.animation_dict = this.create_animation_dictionary(); //Load all sprite images
+        this.animation_index = 0; //Keep track of what sprite image is being displayed in its respective animation loop
+        this.animation_speed = 5; //Lower numbers mean the sprite will animate faster
+        this.occupied_vehicle = false; //Determine if sprite is in a vehicle or not
+        this.jump1 = false;
         this.jump2 = false;
         this.x = 20;
         this.y = BackGround.hero_floor;
@@ -17,10 +18,12 @@ class Hero{
     }
     
     create_animation_dictionary(){
+        //Load all hero sprite images and create a dictionary containing lists of the images in chronological order for animation
         let animation_dict = {};
         let prefix_right = 'assets/hero/ellie frames/right/Ellie frame_';
         let prefix_left = 'assets/hero/ellie frames/left/Ellie frame_';
         let suffix = '.png';
+        
         animation_dict['aim_right'] =   [];
         animation_dict['death_right'] = [];
         animation_dict['idle_right'] =  [];
@@ -31,6 +34,7 @@ class Hero{
         animation_dict['idle_left'] =   [];
         animation_dict['run_left'] =    [];
         animation_dict['shoot_left'] =  [];
+        
         //RIGHT FACING
         //Load Aim Images
         for(let i = 0; i < 8; i++){
@@ -56,6 +60,7 @@ class Hero{
         for(let i = 0; i < 4; i++){
             animation_dict['shoot_right'].push(loadImage(prefix_right + 'shoot_' + i + suffix));
         }
+        
         //LEFT FACING
         //Load Aim Images
         for(let i = 0; i < 8; i++){
@@ -83,18 +88,26 @@ class Hero{
         }
         
         return animation_dict;
-        
     }
     
-    //Increment the animation index
-    loop_current_animation(frame){
+    set_animation_speed(){
+        //Set correct animation speed based on sprite state
         if(this.state == 'idle_left' || this.state == 'idle_right'){
             this.animation_speed = 8;
         } else {
-            this.ainmation_speed = 6;
+            this.ainmation_speed = 5;
         }
-        let max_animation = this.animation_dict[this.state].length;
+    }
+    
+    loop_current_animation(frame){
+        //Increment animation index in order to animate sprite
         
+        //Set correct animation speed based on sprite state
+        this.set_animation_speed();
+        
+        //Iterate through sprite images to animate hero
+        //If sprite is aiming, only loop through animation once, ending on last part of animation so she holds her aiming stance
+        let max_animation = this.animation_dict[this.state].length;
         if(this.state == 'aim_left' || this.state == 'aim_right'){
             if(frame % this.animation_speed == 0){
                 if(this.animation_index < max_animation - 1){
@@ -113,6 +126,7 @@ class Hero{
     }
     
     update(){
+        //Only allow for right scrolling + handle hero physics
         if(this.state == 'run_right'){
             if(this.x >= Canvas_Width * 3 / 4){
                 BackGround.update();
@@ -126,88 +140,64 @@ class Hero{
         }
         
         this.y += this.y_vel;
+        //If hero is above ground level, let physics apply
         if(this.y < this.y_standard){
             this.y_vel += this.gravity
         } else {
+            //Do not allow the hero to go beneath the ground level and reset jump2 ability when hero hits the ground
             this.y = this.y_standard
             this.y_vel = 0;
             this.jump2 = false;
+            this.jump1 = false;
         }
     }
     
-    action(behavior){
+    //Hero Action Methods -------------------------------
+    _aim(){
+        if(this.state == 'shoot_right' || this.state == 'shoot_left'){ //if coming from shooting, display final aim frame
+            this.animation_index = this.animation_dict[this.state].length - 1;
+        } //if not coming from shooting, play full aim animation
+
+        if(this.facing == 'right'){
+            this.state = 'aim_right';
+        } else {
+            this.state = 'aim_left';
+        }
+    }
+    
+    _jump(){
+        if(!this.occupied_vehicle){
+            if(!this.jump2 && !this.jump1){
+                this.y -= 10;
+                this.y_vel = -9;
+                this.jump1 = true;
+            } else if(this.y_vel != 0 && !this.jump2){ //allows the double jump
+                this.y -= 10;
+                this.y_vel = -9;
+                this.jump2 = true;
+            } 
+        }
+    }
+    
+    _run(behavior){
         if (behavior == 'run_left'){
             this.state = 'run_left';
             this.facing = 'left'
-            this.animation_index = 0;
             
         } else if(behavior == 'run_right'){
             this.state = 'run_right';
             this.facing = 'right';
-            this.animation_index = 0;
-
-        } else if(behavior == 'jump'){
-            if(!this.occupied_vehicle){
-                if(this.y_vel != 0 && !this.jump2){ //allows the double jump
-                    this.y -= 10;
-                    this.y_vel = -9;
-                    this.jump2 = true;
-                }
-                if(!this.jump2){
-                    this.y -= 10;
-                    this.y_vel = -9;
-                }
-            }
-            
-        } else if(behavior == 'attack'){
-            if(this.state == 'aim_right' || this.state == 'aim_left'){ //first check if already aiming, if not, aim
-                this.animation_index = 0;
-                if(this.facing == 'right'){
-                    this.state = 'shoot_right';
-                } else {
-                    this.state = 'shoot_left';
-                }
-            } else {
-                if(this.facing == 'right'){
-                    this.state = 'aim_right';
-                } else {
-                    this.state = 'aim_left';
-                }
-                this.animation_index = 0;
-            }
-            
-        } else if(behavior == 'board'){
-            if(!this.occupied_vehicle){
-                let hero_center = this.find_center();
-                for(let i = 0; i < all_units.length; i++){
-                    if(all_units[i].template.be_boarded(hero_center)){
-                        occupied_vehicle = all_units[i];
-                        all_units.splice(i, 1);
-                        this.occupied_vehicle = true;
-                        break;
-                    }
-                }
-            } else {
-                occupied_vehicle.template.exit();
-                all_units.push(occupied_vehicle);
-                occupied_vehicle = false;
-                this.occupied_vehicle = false;
-            }
-            
-        } else if(behavior == 'idle'){
+        }
+    }
+    
+    _attack(){
+        if(this.state == 'aim_right' || this.state == 'aim_left'){ //first check if already aiming, if not, aim
             if(this.facing == 'right'){
-                this.state = 'idle_right';
+                this.state = 'shoot_right';
             } else {
-                this.state = 'idle_left';
+                this.state = 'shoot_left';
             }
-            this.animation_index = 0;
-            
-        } else if(behavior == 'aim'){
-            
-            if(this.state == 'shoot_right' || this.state == 'shoot_left'){ //if coming from shooting, display final aim frame
-                this.animation_index = this.animation_dict[this.state].length - 1;
-            } //if not coming from shooting, play full aim animation
-            
+        } else { //If hero isn't already aiming, the first space bar press will make the hero aim
             if(this.facing == 'right'){
                 this.state = 'aim_right';
             } else {
@@ -216,18 +206,79 @@ class Hero{
         }
     }
     
+    _board(){
+        if(!this.occupied_vehicle){ //If not already in a vehicle, attempt to board all vehicles
+            let hero_center = this.find_center();
+            for(let i = 0; i < all_units.length; i++){
+                if(all_units[i].template.be_boarded(hero_center)){
+                    occupied_vehicle = all_units[i];
+                    all_units.splice(i, 1);
+                    this.occupied_vehicle = true;
+                    this.facing = 'right';
+                    this.state = 'idle_right';
+                    break;
+                }
+            }
+        } else {
+            occupied_vehicle.template.exit();
+            all_units.push(occupied_vehicle);
+            occupied_vehicle = false;
+            this.occupied_vehicle = false;
+            this.facing = 'right';
+            this.state = 'idle_right';
+        }
+    }
+    
+    _idle(){
+        if(this.facing == 'right'){
+            this.state = 'idle_right';
+        } else {
+            this.state = 'idle_left';
+        }
+    }
+    
+    //End Hero Action Methods ---------------------------
+    
+    action(behavior){
+        //Allow hero to perform actions based on user inputs
+        if(behavior == 'aim'){
+            this._aim();
+            return false; //do not check other actions to avoid resetting animation index
+            
+        } else if(behavior == 'jump'){
+            this._jump();
+            return false; //do not check other actions to avoid resetting animation index
+        }
+        
+        this.animation_index = 0;
+            
+        if (behavior == 'run_left' || behavior == 'run_right'){
+            this._run(behavior);
+            
+        } else if(behavior == 'attack'){
+            this._attack();
+            
+        } else if(behavior == 'board'){
+            this._board();
+            
+        } else if(behavior == 'idle'){
+            this._idle();
+        }
+    }
+    
     find_center(){
+        //Find the position of the central hitpoint of hero
         return [this.x + 35, this.y + 30, 35, 30];
     }
     
-    //Display the current image
     display(){
+        //Display the current animated frame
         image(this.animation_dict[this.state][this.animation_index], this.x, this.y, 75, 75);
-
         
-/*        //Find hero center
-        fill(255,255,255);
+        //Determine central hitpoint of the hero
+/*        fill(255,255,255);
         ellipse(this.x + 35, this.y + 30, 5, 5);*/
+        
     }
     
     run(frame){

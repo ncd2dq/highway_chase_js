@@ -133,22 +133,38 @@ class Vehicle{
         BackGround.reset_speed();
     }
     
-    animation(frame){
-        if(frame % this.idle_animation_speed == 0){
-            if(this.animation_index == 0){
-                this.body_y_offset += this.idle_movement;
-                hero.y += this.idle_movement;
-            } else if (this.animation_index == 1){
-                this.body_y_offset += this.idle_movement * this.idle_jerk;
-                hero.y += this.idle_movement * this.idle_jerk;
-                
-            } else if (this.animation_index == 2){
-                this.body_y_offset -= this.idle_movement;
-                hero.y -= this.idle_movement;
-                
-            } else if (this.animation_index == 3){
-                this.body_y_offset -= this.idle_movement * this.idle_jerk;
-                hero.y -= this.idle_movement * this.idle_jerk;
+    animation(frame, no_hero_idle){
+        if(no_hero_idle){
+            if(frame % this.idle_animation_speed == 0){
+                if(this.animation_index == 0){
+                    this.body_y_offset += this.idle_movement;
+                } else if (this.animation_index == 1){
+                    this.body_y_offset += this.idle_movement * this.idle_jerk;
+
+                } else if (this.animation_index == 2){
+                    this.body_y_offset -= this.idle_movement;
+
+                } else if (this.animation_index == 3){
+                    this.body_y_offset -= this.idle_movement * this.idle_jerk;
+                }
+            }
+        } else {
+            if(frame % this.idle_animation_speed == 0){
+                if(this.animation_index == 0){
+                    this.body_y_offset += this.idle_movement;
+                    hero.y += this.idle_movement;
+                } else if (this.animation_index == 1){
+                    this.body_y_offset += this.idle_movement * this.idle_jerk;
+                    hero.y += this.idle_movement * this.idle_jerk;
+
+                } else if (this.animation_index == 2){
+                    this.body_y_offset -= this.idle_movement;
+                    hero.y -= this.idle_movement;
+
+                } else if (this.animation_index == 3){
+                    this.body_y_offset -= this.idle_movement * this.idle_jerk;
+                    hero.y -= this.idle_movement * this.idle_jerk;
+                }
             }
         }
 

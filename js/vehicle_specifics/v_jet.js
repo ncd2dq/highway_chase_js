@@ -44,8 +44,8 @@ class Jet{
         ellipse(this.template.x, this.template.y, 10, 10);*/
     }
     
-    animation(frame){
-        this.template.animation(frame);
+    animation(frame, no_hero_idle){
+        this.template.animation(frame, no_hero_idle);
     }
     
     update(){
@@ -57,17 +57,17 @@ class Jet{
         
         if(BackGround.name == 'Punk'){
             if(this.template.y < this.template.ground_y_punk){
-                this.animation(frameCount);
+                this.animation(frameCount, true);
             }
         } else if (BackGround.name == 'Industrial'){
             if(this.template.y < this.template.ground_y_industrial){
-                this.animation(frameCount);
+                this.animation(frameCount, true);
             }
         }
     }
     
     run_occupied(frame){
-        this.animation(frame);
+        this.animation(frame, false);
         this.display(true);
         this.update();
     }
