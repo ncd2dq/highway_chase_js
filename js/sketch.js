@@ -2,7 +2,7 @@
 //let Canvas_Height = window.innerHeight;
 let Canvas_Width =  800;
 let Canvas_Height = 445;
-
+let game_state = true;
 //Load Backgrounds
 let blackBackground;
 let industrialBackground;
@@ -66,12 +66,18 @@ function draw(){
     
     //Hero Testing
     hero.run(frameCount);
-
+    
+    if(!game_state){
+        textSize(15);
+        fill(0, 255, 0);
+        text("Move with arrow keys or 'WDSA'", 20, 50);
+        text("Shoot with spacebar or mouse click or screen tap", 20, 70);
+        text("Get in vehicles with 'f' or 'b'", 20, 90);
+    }
 }
 
 //User Input -------------
 function keyPressed(){
-    console.log(keyCode);
     if (keyCode === LEFT_ARROW || keyCode == 65){
         if(!hero.occupied_vehicle){
             hero.action('run_left');
@@ -180,4 +186,14 @@ function change_level(){
         all_units.push(humvee_object, bike1, bike2, j);
     }
 
+}
+
+function pause_game(){
+    if(game_state){
+        noLoop();
+        game_state = false;
+    } else {
+        loop();
+        game_state = true;
+    }
 }
