@@ -14,7 +14,6 @@ class Hero{
         this.gravity = 1;
         this.y_standard = BackGround.hero_floor;
         this.run_speed = 3;
-        
     }
     
     create_animation_dictionary(){
@@ -236,7 +235,6 @@ class Hero{
             this.state = 'idle_left';
         }
     }
-    
     //End Hero Action Methods ---------------------------
     
     action(behavior){
@@ -277,8 +275,7 @@ class Hero{
         
         //Determine central hitpoint of the hero
 /*        fill(255,255,255);
-        ellipse(this.x + 35, this.y + 30, 5, 5);*/
-        
+        ellipse(this.x + 35, this.y + 30, 5, 5);*/   
     }
     
     run(frame){
@@ -288,6 +285,4 @@ class Hero{
             this.update();
         }
     }
-    
-    
 }

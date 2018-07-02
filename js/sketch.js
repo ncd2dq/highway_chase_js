@@ -70,7 +70,8 @@ function draw(){
 }
 
 function keyPressed(){
-    if (keyCode === LEFT_ARROW){
+    console.log(keyCode);
+    if (keyCode === LEFT_ARROW || keyCode == 65){
         
         if(!hero.occupied_vehicle){
             hero.action('run_left');
@@ -80,7 +81,7 @@ function keyPressed(){
             occupied_vehicle.template.moving = true;
         }
         
-    } else if (keyCode === RIGHT_ARROW){
+    } else if (keyCode === RIGHT_ARROW || keyCode == 68){
         if(!hero.occupied_vehicle){
             hero.action('run_right');
         } else {
@@ -89,7 +90,7 @@ function keyPressed(){
             occupied_vehicle.template.moving = true;
         }
         
-    } else if (keyCode === UP_ARROW){
+    } else if (keyCode === UP_ARROW || keyCode == 87){
         if(!hero.occupied_vehicle){
             hero.action('jump');
         } else {
@@ -98,7 +99,7 @@ function keyPressed(){
             }
         }
         
-    } else if (keyCode ==DOWN_ARROW){
+    } else if (keyCode ==+ DOWN_ARROW || keyCode == 83){
         if(hero.occupied_vehicle){
             if(!occupied_vehicle.land_vehicle){
                 occupied_vehicle.template.fly('down', occupied_vehicle.template.y_speed);
@@ -109,13 +110,13 @@ function keyPressed(){
 
     } else if (keyCode == 80){ //the 'p' key
 
-    } else if (keyCode == 66){
+    } else if (keyCode == 66 || keyCode == 70){
         hero.action('board');
     }
 }
 
 function keyReleased(){
-    if (keyCode === LEFT_ARROW){
+    if (keyCode === LEFT_ARROW || keyCode == 65){
         if(!hero.occupied_vehicle){
             hero.action('idle');
         } else {
@@ -123,7 +124,7 @@ function keyReleased(){
             occupied_vehicle.template.moving = false;
         }
         
-    } else if (keyCode === RIGHT_ARROW){
+    } else if (keyCode === RIGHT_ARROW || keyCode == 68){
         if(!hero.occupied_vehicle){
             hero.action('idle');
         } else {
@@ -131,14 +132,14 @@ function keyReleased(){
             occupied_vehicle.template.moving = false;
         }
         
-    } else if (keyCode === UP_ARROW){
+    } else if (keyCode === UP_ARROW || keyCode == 87){
         if(hero.occupied_vehicle){
             if(!occupied_vehicle.land_vehicle){
                 occupied_vehicle.template.y_vel = 0;
             }
         }
         
-    } else if (keyCode == DOWN_ARROW){
+    } else if (keyCode == DOWN_ARROW || keyCode == 83){
         if(hero.occupied_vehicle){
             if(!occupied_vehicle.land_vehicle){
                 occupied_vehicle.template.y_vel = 0;
@@ -150,7 +151,7 @@ function keyReleased(){
 
     } else if (keyCode == 80){ //the 'p' key
 
-    } else if (keyCode == 66){ //the 'b' key
+    } else if (keyCode == 66 || keyCode == 70){ //the 'b' key
 
     }
     
