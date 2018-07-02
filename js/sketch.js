@@ -69,6 +69,7 @@ function draw(){
 
 }
 
+//User Input -------------
 function keyPressed(){
     console.log(keyCode);
     if (keyCode === LEFT_ARROW || keyCode == 65){
@@ -157,6 +158,16 @@ function keyReleased(){
     
 }
 
+function mousePressed(){
+    hero.action('attack');
+}
+
+function mouseReleased(){
+    hero.action('aim');
+}
+
+//End user input -----
+
 function change_level(){
     if(BackGround == industrialBackground){
         setup();
@@ -168,12 +179,4 @@ function change_level(){
         hero = new Hero();
     }
 
-}
-
-function mousePressed(){
-    hero.action('attack');
-}
-
-function mouseReleased(){
-    hero.action('aim');
 }

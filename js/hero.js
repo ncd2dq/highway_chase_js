@@ -14,6 +14,7 @@ class Hero{
         this.gravity = 1;
         this.y_standard = BackGround.hero_floor;
         this.run_speed = 3;
+        this.side_scroll_beings = Canvas_Width * 2 / 3;
     }
     
     create_animation_dictionary(){
@@ -127,9 +128,8 @@ class Hero{
     update(){
         //Only allow for right scrolling + handle hero physics
         if(this.state == 'run_right'){
-            if(this.x >= Canvas_Width * 3 / 4){
-                BackGround.update();
-                BackGround.move_objects();
+            if(this.x >= this.side_scroll_beings){
+                BackGround.side_scroll();
             } else {
                 this.x += this.run_speed;
             }

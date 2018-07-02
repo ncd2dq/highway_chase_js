@@ -159,4 +159,9 @@ class IndustrialBackground{
         this.display();
     }
     
+    side_scroll(){
+        this.update();
+        this.move_objects();
+    }
+    
 }

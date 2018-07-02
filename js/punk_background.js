@@ -172,4 +172,9 @@ class PunkBackground{
         this.infinite_loop();
         this.display();
     }
+    
+    side_scroll(){
+        this.update();
+        this.move_objects();
+    }
 }
