@@ -73,45 +73,36 @@ function draw(){
 function keyPressed(){
     console.log(keyCode);
     if (keyCode === LEFT_ARROW || keyCode == 65){
-        
         if(!hero.occupied_vehicle){
             hero.action('run_left');
         } else {
-            occupied_vehicle.template.x_vel = -occupied_vehicle.template.x_speed;
-            occupied_vehicle.template.direction = 'left';
-            occupied_vehicle.template.moving = true;
+            occupied_vehicle.template.move('left');
         }
         
     } else if (keyCode === RIGHT_ARROW || keyCode == 68){
         if(!hero.occupied_vehicle){
             hero.action('run_right');
         } else {
-            occupied_vehicle.template.x_vel = occupied_vehicle.template.x_speed;
-            occupied_vehicle.template.direction= 'right';
-            occupied_vehicle.template.moving = true;
+            occupied_vehicle.template.move('right');
         }
         
     } else if (keyCode === UP_ARROW || keyCode == 87){
         if(!hero.occupied_vehicle){
             hero.action('jump');
         } else {
-            if(!occupied_vehicle.template.land_vehicle){
-                occupied_vehicle.template.fly('up', occupied_vehicle.template.y_speed);
-            }
+            occupied_vehicle.template.move('up');
         }
         
     } else if (keyCode ==+ DOWN_ARROW || keyCode == 83){
         if(hero.occupied_vehicle){
-            if(!occupied_vehicle.land_vehicle){
-                occupied_vehicle.template.fly('down', occupied_vehicle.template.y_speed);
-            }
+            occupied_vehicle.template.move('down');
         }
     } else if (keyCode == 32){ //the spacebar
         hero.action('attack');
 
     } else if (keyCode == 80){ //the 'p' key
 
-    } else if (keyCode == 66 || keyCode == 70){
+    } else if (keyCode == 66 || keyCode == 70){ //the 'b' key or 'f' key
         hero.action('board');
     }
 }
@@ -121,30 +112,24 @@ function keyReleased(){
         if(!hero.occupied_vehicle){
             hero.action('idle');
         } else {
-            occupied_vehicle.template.x_vel = 0;
-            occupied_vehicle.template.moving = false;
+            occupied_vehicle.template.move('stop');
         }
         
     } else if (keyCode === RIGHT_ARROW || keyCode == 68){
         if(!hero.occupied_vehicle){
             hero.action('idle');
         } else {
-            occupied_vehicle.template.x_vel = 0;
-            occupied_vehicle.template.moving = false;
+            occupied_vehicle.template.move('stop');
         }
         
     } else if (keyCode === UP_ARROW || keyCode == 87){
         if(hero.occupied_vehicle){
-            if(!occupied_vehicle.land_vehicle){
-                occupied_vehicle.template.y_vel = 0;
-            }
+            occupied_vehicle.template.move('stop_y');
         }
         
     } else if (keyCode == DOWN_ARROW || keyCode == 83){
         if(hero.occupied_vehicle){
-            if(!occupied_vehicle.land_vehicle){
-                occupied_vehicle.template.y_vel = 0;
-            }
+            occupied_vehicle.template.move('stop_y');
         }
 
     } else if (keyCode == 32){ //the spacebar
@@ -152,10 +137,9 @@ function keyReleased(){
 
     } else if (keyCode == 80){ //the 'p' key
 
-    } else if (keyCode == 66 || keyCode == 70){ //the 'b' key
+    } else if (keyCode == 66 || keyCode == 70){ //the 'b' key or 'f' key
 
     }
-    
 }
 
 function mousePressed(){
@@ -165,7 +149,6 @@ function mousePressed(){
 function mouseReleased(){
     hero.action('aim');
 }
-
 //End user input -----
 
 function change_level(){
@@ -173,10 +156,28 @@ function change_level(){
         setup();
         BackGround = punkBackground;
         hero = new Hero();
+        //TESTING--------------
+        all_units = [];
+        humvee_object = new Humvee();
+        bike1 = new MotoCommuter();
+        bike2 = new MotoNaked();
+        j = new Jet();
+
+        //If units are not in "all_units", they will not move when the background scrolls
+        all_units.push(humvee_object, bike1, bike2, j);
     } else {
         setup();
         BackGround = industrialBackground;
         hero = new Hero();
+        //TESTING--------------
+        all_units = [];
+        humvee_object = new Humvee();
+        bike1 = new MotoCommuter();
+        bike2 = new MotoNaked();
+        j = new Jet();
+
+        //If units are not in "all_units", they will not move when the background scrolls
+        all_units.push(humvee_object, bike1, bike2, j);
     }
 
 }

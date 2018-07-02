@@ -91,6 +91,25 @@ class Vehicle{
         
     }
     
+    move(direction){
+        if(direction == 'left'){
+            this.x_vel = -occupied_vehicle.template.x_speed;
+            this.direction = 'left';
+            this.moving = true;
+        } else if (direction == 'right'){
+            this.x_vel = occupied_vehicle.template.x_speed;
+            this.direction= 'right';
+            this.moving = true;
+        } else if (direction == 'up' || direction == 'down'){
+            this.fly(direction);
+        } else if (direction == 'stop'){
+            this.x_vel = 0;
+            this.moving = false;
+        } else if (direction == 'stop_y'){ //stop up and down are split out so that you can keep flying in the x/y direction while stopping in the other
+            this.y_vel = 0;
+        }
+    }
+    
     update(){
         if(this.x + this.x_vel >= this.side_scroll_begins){
             BackGround.side_scroll();
@@ -130,10 +149,12 @@ class Vehicle{
     }
     
     fly(direction, speed){
-        if(direction == 'up'){
-            this.y_vel = -speed;
-        } else if(direction == 'down') {
-            this.y_vel = speed;
+        if(!this.land_vehicle){
+            if(direction == 'up'){
+                this.y_vel = -this.y_speed;
+            } else if(direction == 'down') {
+                this.y_vel = this.y_speed;
+            }
         }
     }
     
