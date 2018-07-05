@@ -33,7 +33,7 @@ class SpriteSheetEnemy{
     
     load_animation_dictionary(directions){
         //directions = {'directory': '/assets/enemies/____', 'animations': {'attack': 18, 'dead': 15, ...}}
-        let prefix = '/assets/enemies/';
+        let prefix = 'assets/enemies/';
         let suffix;
         
         if(this.reverse_animation){
