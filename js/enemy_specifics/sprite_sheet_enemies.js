@@ -77,6 +77,12 @@ class SpriteSheetEnemy{
               this.x_size * this.relative_size, this.y_size * this.relative_size, //destination size
               this.x_size * this.animation_index, 0, //starting x of slice, starting y in slice
               this.x_size, this.y_size); //source size
+        
+        fill(255, 255, 255);
+        ellipse(this.x + 27, this.y + 37, 5, 5);
+        ellipse(this.x + 62, this.y + 50, 5, 5);
+        //x = 62 - 27
+        //y = 50 - 37
     }
     
     run(){

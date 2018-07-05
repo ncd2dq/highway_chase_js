@@ -1,6 +1,6 @@
 class Skeleton{
     constructor(){
-        this.template = new SpriteSheetEnemy('attack', 43, 37, true, 
+        this.template = new SpriteSheetEnemy('walk', 43, 37, true, 
                                              
                                              {'directory': 'skeleton', 'animations': {'attack': 18, 'dead': 15, 'hit': 8, 'idle': 11, 'react': 4, 'walk': 13}}, 
                                              
