@@ -21,7 +21,7 @@ let humvee_object;
 let bike1;
 let bike2;
 let j;
-
+let test_enemy; 
 
 function preload(){
     
@@ -48,10 +48,13 @@ function setup(){
     bike2 = new MotoNaked();
     j = new Jet();
     
+    test_enemy = new Skeleton();
+    
     //If units are not in "all_units", they will not move when the background scrolls
     all_units.push(humvee_object, bike1, bike2, j);
 }
 
+//GAME LOGIC ------------------------------------------>
 function draw(){
     background(blackBackground);
     BackGround.run();
@@ -64,6 +67,10 @@ function draw(){
         all_units[i].run();
     }
     
+    //Enemy Testing
+    test_enemy.state = 'attack';
+    test_enemy.run();
+    
     //Hero Testing
     hero.run(frameCount);
     
@@ -75,6 +82,7 @@ function draw(){
         text("Get in vehicles with 'f' or 'b'", 20, 90);
     }
 }
+//END GAME LOGIC ------------------------------------------>
 
 //User Input -------------
 function keyPressed(){
@@ -99,7 +107,7 @@ function keyPressed(){
             occupied_vehicle.template.move('up');
         }
         
-    } else if (keyCode ==+ DOWN_ARROW || keyCode == 83){
+    } else if (keyCode === DOWN_ARROW || keyCode == 83){
         if(hero.occupied_vehicle){
             occupied_vehicle.template.move('down');
         }
@@ -177,6 +185,7 @@ function change_level(){
         hero = new Hero();
         //TESTING--------------
         all_units = [];
+        occupied_vehicle = false;
         humvee_object = new Humvee();
         bike1 = new MotoCommuter();
         bike2 = new MotoNaked();
