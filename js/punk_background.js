@@ -161,8 +161,8 @@ class PunkBackground{
         image(this.b2, this.b2x3, 75, this.b2.width * this.image_resizing, this.b2.height * this.image_resizing);
         
         //Use this method to determine what the ground level y-position should be
-/*        
-        //finding the ground level
+        
+/*        //finding the ground level
         stroke(255, 0, 0);
         strokeWeight(1);
         line(0, 419, 400, 419);*/

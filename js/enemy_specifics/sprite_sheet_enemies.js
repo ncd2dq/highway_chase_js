@@ -1,7 +1,7 @@
 //image(obj, dx, dy, dw, dh, sx, sy, sw, sh)
 
 class SpriteSheetEnemy{
-    constructor(state, x_size, y_size, reversed, directions, sizing){
+    constructor(state, x_size, y_size, reversed, directions, sizing, animation_offsets){
         
         //Display Resizing
         this.x_resize = 0;
@@ -13,6 +13,7 @@ class SpriteSheetEnemy{
         this.y_offset = 0;
         this.x = 0;
         this.y = 0;
+        this.animation_offsets = animation_offsets;
         
         this.punk_ground_y = 0;
         this.industrial_ground_y = 0;
@@ -52,6 +53,27 @@ class SpriteSheetEnemy{
         return animation_dict;
     }
     
+    //CHANGE SPRITE STATE FUNCTIONS ----------->
+    _correct_animation_offset(old_state, new_state){
+        //Call this funciton whenever you change states just incase the pictures need to be adjusted to stay in the same location
+        if(this.animation_offsets[new_state]){
+            this.x -= this.animation_offsets[new_state]['x'];
+            this.y -= this.animation_offsets[new_state]['y'];
+        }
+        if(this.animation_offsets[old_state]){
+            this.x += this.animation_offsets[old_state]['x'];
+            this.y += this.animation_offsets[old_state]['y'];
+        }
+    
+    }
+    
+    _change_animation_size(){
+        this.x_size = this.sizing[this.state]['x'];
+        this.y_size = this.sizing[this.state]['y'];
+    }
+    //END CHANGE SPRITE STATE FUNCTIONS ----------->
+    
+    
     animate(reverse){
         if(frameCount % this.animation_speed == 0){
             if(reverse){
@@ -77,12 +99,18 @@ class SpriteSheetEnemy{
               this.x_size * this.relative_size, this.y_size * this.relative_size, //destination size
               this.x_size * this.animation_index, 0, //starting x of slice, starting y in slice
               this.x_size, this.y_size); //source size
+    }
+    
+    state_change(new_state){
+        this._correct_animation_offset(this.state, new_state);
+        this.state = new_state;
         
-        fill(255, 255, 255);
-        ellipse(this.x + 27, this.y + 37, 5, 5);
-        ellipse(this.x + 62, this.y + 50, 5, 5);
-        //x = 62 - 27
-        //y = 50 - 37
+        if(this.reverse_animation){
+            this.animation_index = this.animation_dictionary[this.state]['length'] - 1;
+        } else {
+            this.animation_index = 0;
+        }
+        this._change_animation_size();
     }
     
     run(){
