@@ -8,8 +8,14 @@ class Skeleton{
                                              {'attack': {'x': 35, 'y': 13}}
                                             );
         this.template.relative_size = 2;
-        this.template.punk_ground_y = 352;
-        this.template.industrial_ground_y = 293;
+        this.template.punk_ground_y = 392;
+        this.template.industrial_ground_y = 333;
+        
+        this.template.hit_radius = 20;
+        this.template.x_offset = -28;
+        this.template.y_offset = -40;
+        
+        this.template.x = 50;
         
         if(BackGround.name == 'Punk'){
             this.template.y = this.template.punk_ground_y;
@@ -20,8 +26,6 @@ class Skeleton{
     
     run(){
         this.template.run();
-        
-        fill(255, 255,255);
-        ellipse(this.template.x, this.template.y, 10, 10);
+        this.template._draw_hit_box();
     }
 }

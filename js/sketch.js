@@ -158,6 +158,7 @@ function keyReleased(){
 
 function mousePressed(){
     hero.action('attack');
+    test_enemy.template.be_attacked({'x': mouseX, 'y': mouseY});
 }
 
 function mouseReleased(){
