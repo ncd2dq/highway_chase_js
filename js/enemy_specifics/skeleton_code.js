@@ -26,6 +26,6 @@ class Skeleton{
     
     run(){
         this.template.run();
-        this.template._draw_hit_box();
+        //this.template._draw_hit_box();
     }
 }
