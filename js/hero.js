@@ -15,6 +15,8 @@ class Hero{
         this.y_standard = BackGround.hero_floor;
         this.run_speed = 3;
         this.side_scroll_beings = Canvas_Width * 2 / 3;
+        this.max_health = 15;
+        this.health = this.max_health;
     }
     
     create_animation_dictionary(){
@@ -96,6 +98,18 @@ class Hero{
             this.animation_speed = 8;
         } else {
             this.ainmation_speed = 5;
+        }
+    }
+    
+    health_bar(){
+        fill(0, 0, 0);
+        rect(this.x + 18, this.y, 30, 5);
+        fill(0, 255, 0);
+        rect(this.x + 18, this.y, (30 / this.max_health) * this.health, 5);
+        
+        if(this.health == 0){
+            noLoop();
+            setTimeout(function(){location.reload();}, 3000);
         }
     }
     
@@ -277,7 +291,7 @@ class Hero{
         
         //Determine central hitpoint of the hero
 /*        fill(255,255,255);
-        ellipse(this.x + 35, this.y + 30, 5, 5);*/   
+        ellipse(this.x + 35, this.y + 30, 5, 5);   */
     }
     
     run(frame){
@@ -286,5 +300,6 @@ class Hero{
             this.display();
             this.update();
         }
+        this.health_bar();
     }
 }

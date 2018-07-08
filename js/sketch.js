@@ -76,14 +76,6 @@ function draw(){
             new_enemy.template.x = Canvas_Width;
             all_units.push(new_enemy);
         }
-        if(random() > 0.9){
-            console.log('bulk incoming!');
-            for(let i = 0; i < 5; i ++){
-                let new_enemy = new Skeleton();
-                new_enemy.template.x += Canvas_Width + i * 50;
-                all_units.push(new_enemy);
-            }
-        }
     }
     
     if(!game_state){
