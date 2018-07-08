@@ -209,13 +209,15 @@ class Hero{
         if(!this.occupied_vehicle){ //If not already in a vehicle, attempt to board all vehicles
             let hero_center = this.find_center();
             for(let i = 0; i < all_units.length; i++){
-                if(all_units[i].template.be_boarded(hero_center)){
-                    occupied_vehicle = all_units[i];
-                    all_units.splice(i, 1);
-                    this.occupied_vehicle = true;
-                    this.facing = 'right';
-                    this.state = 'idle_right';
-                    break;
+                if(all_units[i].template.type == 'vehicle'){
+                    if(all_units[i].template.be_boarded(hero_center)){
+                        occupied_vehicle = all_units[i];
+                        all_units.splice(i, 1);
+                        this.occupied_vehicle = true;
+                        this.facing = 'right';
+                        this.state = 'idle_right';
+                        break;
+                    }
                 }
             }
         } else {

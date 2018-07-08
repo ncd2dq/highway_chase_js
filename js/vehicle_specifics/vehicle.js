@@ -1,6 +1,7 @@
 class Vehicle{
     constructor(land_vehicle, moto, file_path){
         //State variables
+        this.type = 'vehicle';
         this.land_vehicle = land_vehicle;
         this.moto = moto;
         this.occupied = false;

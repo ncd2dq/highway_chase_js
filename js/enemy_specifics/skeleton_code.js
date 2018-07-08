@@ -15,7 +15,16 @@ class Skeleton{
         this.template.x_offset = -28;
         this.template.y_offset = -40;
         
-        this.template.x = 50;
+        this.template.x = 150;
+        
+        this.template.health = 3;
+        this.template.max_health = 3;
+        
+        this.template.health_bar_x_offset = -10;
+        this.template.health_bar_y_offset = -35;
+        this.template.health_bar_size = 18;
+        
+        this.template.has_death_animation = true;
         
         if(BackGround.name == 'Punk'){
             this.template.y = this.template.punk_ground_y;
@@ -27,5 +36,8 @@ class Skeleton{
     run(){
         this.template.run();
         //this.template._draw_hit_box();
+        if(this.template.state == 'walk'){
+            this.template.x -= 1;
+        }
     }
 }

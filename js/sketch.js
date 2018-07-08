@@ -48,8 +48,6 @@ function setup(){
     bike2 = new MotoNaked();
     j = new Jet();
     
-    test_enemy = new Skeleton();
-    
     //If units are not in "all_units", they will not move when the background scrolls
     all_units.push(humvee_object, bike1, bike2, j);
 }
@@ -66,13 +64,27 @@ function draw(){
     for(let i = 0; i < all_units.length; i++){
         all_units[i].run();
     }
-    
-    //Enemy Testing
-    test_enemy.state = 'attack';
-    test_enemy.run();
+    remove_units(all_units);
     
     //Hero Testing
     hero.run(frameCount);
+    
+    //enemy testing
+    if(frameCount % 50 == 0){
+        if(random() > 0.35){
+            let new_enemy = new Skeleton();
+            new_enemy.template.x = Canvas_Width;
+            all_units.push(new_enemy);
+        }
+        if(random() > 0.9){
+            console.log('bulk incoming!');
+            for(let i = 0; i < 5; i ++){
+                let new_enemy = new Skeleton();
+                new_enemy.template.x += Canvas_Width + i * 50;
+                all_units.push(new_enemy);
+            }
+        }
+    }
     
     if(!game_state){
         textSize(15);
@@ -83,6 +95,18 @@ function draw(){
     }
 }
 //END GAME LOGIC ------------------------------------------>
+
+function remove_units(unit_list){
+    for(let i = unit_list.length - 1; i >= 0; i--){
+        if(unit_list[i].template.type == 'enemy'){
+            if(!unit_list[i].template.alive){
+                unit_list.splice(i, 1); 
+            }
+        } else if (unit_list[i].template.x <= - 15){
+            unit_list.splice(i, 1);
+        }
+    }
+}
 
 //User Input -------------
 function keyPressed(){
@@ -113,6 +137,13 @@ function keyPressed(){
         }
     } else if (keyCode == 32){ //the spacebar
         hero.action('attack');
+        if(hero.state == 'shoot_right' || hero.state == 'shoot_left'){
+            for(let i = 0; i < all_units.length; i ++){
+                if(all_units[i].template.type == 'enemy'){
+                    all_units[i].template.be_attacked({'x': mouseX, 'y': mouseY});
+                }
+            }
+        }
 
     } else if (keyCode == 80){ //the 'p' key
 
@@ -158,7 +189,13 @@ function keyReleased(){
 
 function mousePressed(){
     hero.action('attack');
-    test_enemy.template.be_attacked({'x': mouseX, 'y': mouseY});
+    if(hero.state == 'shoot_right' || hero.state == 'shoot_left'){
+        for(let i = 0; i < all_units.length; i ++){
+            if(all_units[i].template.type == 'enemy'){
+                all_units[i].template.be_attacked({'x': mouseX, 'y': mouseY});
+            }
+        }
+    }
 }
 
 function mouseReleased(){
