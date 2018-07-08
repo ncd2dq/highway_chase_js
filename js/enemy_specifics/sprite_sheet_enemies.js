@@ -1,4 +1,7 @@
 //image(obj, dx, dy, dw, dh, sx, sy, sw, sh)
+//d = destination
+//s = source
+//w, h = width, height
 
 class SpriteSheetEnemy{
     constructor(state, x_size, y_size, reversed, directions, sizing, animation_offsets){
